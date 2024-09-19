@@ -4,25 +4,26 @@ on:
     branches:
       - main
 jobs:
-    build:
-      name: push docker image to docker hub
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - name: login to docker hub
-          id: docker-hub
-          env:
-            username: ${{secrets.DOCKER_USERNAME}}
-            password: ${{secrets.DOCKERH_TOKEN}}
-          run: |
-            docker login -u $username -p $password 
-        - name: build the docker image
-          id: build-docker-image
-          run: |
-            ls -la 
-            docker build . -f Dockerfile -t 0o00/demo-image-test:latest
-        - name: push the docker image
-          id: push-docker-image
-          run: docker push ${{secrets.DOCKERHUB_USERNAME}}/demo-image-test:latest
+  build:
+    name: push docker image to docker hub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Login to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERH_TOKEN: ${{ secrets.DOCKERH_TOKEN }}
+        run: |
+          echo $DOCKERH_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin
+      
+      - name: Build the Docker image
+        run: |
+          ls -la
+          docker build . -f Dockerfile -t 0o00/demo-image-test:latest
+      
+      - name: Push the Docker image
+        run: docker push 0o00/demo-image-test:latest
+
 
 
