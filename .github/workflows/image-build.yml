@@ -8,12 +8,12 @@ jobs:
       name: push docker image to docker hub
       runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@v2
+        - uses: actions/checkout@v3
         - name: login to docker hub
           id: docker-hub
           env:
             username: ${{secrets.DOCKER_USERNAME}}
-            password: ${{secrets.DOCKERH_PASSWORD}}
+            password: ${{secrets.DOCKERH_TOKEN}}
           run: |
             docker login -u $username -p $password 
         - name: build the docker image
